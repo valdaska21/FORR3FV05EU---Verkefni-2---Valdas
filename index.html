@@ -62,7 +62,7 @@
         var speed = 0.5;
 
         
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        //var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
         function animate() {
@@ -74,7 +74,7 @@
             sphere.rotation.y += speed * delta;
             cone.rotation.z += speed * delta;
 
-            controls.update(); 
+            //controls.update(); 
 
             renderer.render(scene, camera);
         }
