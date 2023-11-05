@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <title>My three.js app</title>
+    <title>Verkenfni 2 - 3D Tölvugrafík - Valdas</title>
     <style>
         body { margin: 0; }
     </style>
@@ -13,7 +13,6 @@
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js"></script>
     <script>
-
         // scene, camera, and renderer
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -36,63 +35,68 @@
 
         // Create a box and add it to the group with MeshStandardMaterial
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const cubeTexture = new THREE.TextureLoader().load('/brotex.png');
-        const cubeMaterial = new THREE.MeshStandardMaterial({ map: cubeTexture, roughness: 0.5, metalness: 1 });
+        const cubeTexture = new THREE.TextureLoader().load('cube_texture_green.jpg');
+        const cubeMaterial = new THREE.MeshStandardMaterial({ map: cubeTexture, roughness: 0.5, metalness: 0.5 });
         const cube = new THREE.Mesh(geometry, cubeMaterial);
         group.add(cube);
 
         // Create a sphere and add it to the group with MeshStandardMaterial
         const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const sphereTexture = new THREE.TextureLoader().load('/brotex.png');
-        const sphereMaterial = new THREE.MeshStandardMaterial({ map: sphereTexture, roughness: 0.5, metalness: 1 });
+        const sphereTexture = new THREE.TextureLoader().load('sphere_texture_blue.jpg');
+        const sphereMaterial = new THREE.MeshStandardMaterial({ map: sphereTexture, roughness: 0.5, metalness: 0.5 });
         const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
         sphere.position.x = 2;  // Move the sphere to the right of the cube
         group.add(sphere);
 
         // Create a cone geometry and add it to the group with MeshStandardMaterial
         const coneGeometry = new THREE.ConeGeometry(0.5, 1, 32);
-        const coneTexture = new THREE.TextureLoader().load('/brotex.png');
-        const coneMaterial = new THREE.MeshStandardMaterial({ map: coneTexture, roughness: 0.5, metalness: 1 });
+        const coneTexture = new THREE.TextureLoader().load('cone_texture_red.jpg');
+        const coneMaterial = new THREE.MeshStandardMaterial({ map: coneTexture, roughness: 0.5, metalness: 0.5 });
         const cone = new THREE.Mesh(coneGeometry, coneMaterial);
         cone.position.x = -2;
         group.add(cone);
 
-        // Now you can add the group to your scene
+        //add the group to your scene
         scene.add(group);
 
         camera.position.z = 5;
 
-        // Use the Clock for Animation
+        //Clock for Animation
         const clock = new THREE.Clock();
-        const speed = 0.5;
+        const hradi = 0.8;
 
         // Add OrbitControls
         //const controls = new OrbitControls(camera, renderer.domElement);
 
+        // Animation
         function animate() {
             requestAnimationFrame(animate);
 
             const delta = clock.getDelta();
 
-            cube.rotation.x += speed * delta;
-            cube.rotation.y += speed * delta;
-            cone.rotation.z += speed * delta;
-            cone.rotation.y += speed * delta;
-            sphere.rotation.y += speed * delta;
+            cube.rotation.x += hradi * delta;
+            cube.rotation.y += hradi * delta;
+            cone.rotation.z += hradi * delta;
+            cone.rotation.y += hradi * delta;
+            sphere.rotation.y += hradi * delta;
+            sphere.rotation.x += hradi * delta;
 
             //controls.update(); // Update OrbitControls
 
             renderer.render(scene, camera);
         }
 
-        // Handle window resize
+        //Window resize handler
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        //Event listener for window resize
         window.addEventListener('resize', onWindowResize, false);
+
+        // turn on animation
         animate();
     </script>
 </body>
