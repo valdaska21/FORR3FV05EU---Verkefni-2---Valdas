@@ -1,11 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>My three.js app</title>
+    <style>
+        body { margin: 0; }
+    </style>
+    <!--<script type="module" src="https://unpkg.com/three@0.158.0/build/three.module.js"></script>
+    <script type="module" src="https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js"></script> -->
 </head>
 <body>
-    <h1>Testy test</h1>
+    
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+        import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/controls/OrbitControls.js';
+        
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var dirLight = new THREE.DirectionalLight(0xffffff, 2);
+        dirLight.position.set(5, 5, 5);
+        scene.add(dirLight);
+
+        var ambLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambLight);
+
+        
+        var group = new THREE.Group();
+
+        
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5, metalness: 1 });
+        var cube = new THREE.Mesh(geometry, cubeMaterial);
+        group.add(cube);
+
+        
+        geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        var sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5, metalness: 1 });
+        var sphere = new THREE.Mesh(geometry, sphereMaterial);
+        sphere.position.x = 2;  
+        group.add(sphere);
+
+        
+        geometry = new THREE.ConeGeometry(0.5, 1, 32);
+        var coneMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.5, metalness: 1 });
+        var cone = new THREE.Mesh(geometry, coneMaterial);
+        cone.position.x = -2;
+        group.add(cone);
+
+        
+        scene.add(group);
+
+        camera.position.z = 5;
+
+        
+        var clock = new THREE.Clock();
+        var speed = 0.5;
+
+        
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            var delta = clock.getDelta();
+
+            cube.rotation.x += speed * delta;
+            sphere.rotation.y += speed * delta;
+            cone.rotation.z += speed * delta;
+
+            controls.update(); 
+
+            renderer.render(scene, camera);
+        }
+
+
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', onWindowResize, false);
+        animate();
+    </script>
 </body>
 </html>
